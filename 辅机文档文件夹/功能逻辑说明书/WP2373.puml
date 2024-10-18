@@ -1,0 +1,251 @@
+@startuml
+title 压缩机工作逻辑状态机
+
+state "待机" as Idle
+state "启动条件判断" as StartConditionChecking
+state "压缩机工作" as CompressorWorking
+state "停止条件判断" as StopConditionChecking
+state "停止后" as Stopped
+state "冷却禁止" as CoolingBlocked
+
+Idle --> StartConditionChecking: 冷水箱高水位\n冷水箱温度>7度\n主机不处于加水或加热状态\n制冷功能开\n溢水位无水高低水位有水
+StartConditionChecking --> CompressorWorking : 条件满足\n启动压缩机
+StartConditionChecking --> Idle : 条件不满足\n不启动
+
+CompressorWorking --> StopConditionChecking : 检查停止条件
+StopConditionChecking --> CompressorWorking : 条件不满足\n继续工作
+StopConditionChecking --> Stopped : 条件满足\n冷水箱<3度 或\n主机大功率加热状态\n压缩机停止工作
+
+Stopped --> CoolingBlocked : 延时5分钟\n开始冷却禁止期
+CoolingBlocked --> Idle : 5分钟过后\n压缩机可以再次启动
+
+note right of Idle
+  压缩机待机状态，等待启动条件
+end note
+
+note right of CompressorWorking
+  压缩机正在工作，持续监测停止条件
+end note
+
+note right of Stopped
+  压缩机停止工作，进入停止后状态
+end note
+
+note right of CoolingBlocked
+  压缩机在停止后的5分钟内不会启动
+end note
+
+@enduml
+
+
+@startuml
+title 出常温水逻辑状态机
+
+state "待机" as Idle
+state "判断补水状态" as CheckRefilling
+state "停止补水" as StopRefilling
+state "出常温水" as Dispensing
+state "停止出水" as StopDispensing
+
+[*] --> Idle : 初始状态
+
+Idle --> CheckRefilling : 用户按下常温水按钮
+CheckRefilling --> StopRefilling : 冷水箱正在补水
+CheckRefilling --> Dispensing : 冷水箱未在补水
+
+StopRefilling --> Dispensing : 停止补水，开始出常温水
+Dispensing --> StopDispensing : 用户按下停止按钮
+StopDispensing --> Idle : 停止出水，回到待机状态
+
+@enduml
+
+
+
+@startuml
+title 冷水箱出水逻辑状态机
+
+state "待机" as Idle
+state "冷水出水" as DispensingColdWater
+state "检查停止按钮" as CheckStopButton
+state "停止出冷水" as StopDispensingColdWater
+state "补常温水" as RefillRoomTemperatureWater
+state "检查水位" as CheckWaterLevel
+
+[*] --> Idle
+
+Idle --> DispensingColdWater : 用户按下冷水按钮
+DispensingColdWater --> CheckStopButton : 检查是否按下停止按钮
+DispensingColdWater --> CheckWaterLevel : 检查水位
+CheckWaterLevel --> StopDispensingColdWater: 水位低
+CheckStopButton --> StopDispensingColdWater: 按下停止按钮
+CheckStopButton --> DispensingColdWater: 未按停止按钮
+StopDispensingColdWater --> RefillRoomTemperatureWater : 进行补常温水逻辑
+RefillRoomTemperatureWater --> Idle
+
+note right of DispensingColdWater
+  冷水箱开始出冷水
+end note
+
+note right of RefillRoomTemperatureWater
+  补常温水逻辑
+end note
+
+note right of CheckWaterLevel
+  如水箱达到低水位
+  自动停止出水
+end note
+
+note right of CheckStopButton
+  可以随时按下停止按钮
+  停止出水
+end note
+
+@enduml
+
+
+@startuml
+title 冷水箱补水逻辑状态机
+
+state "待机" as Idle
+state "判断水位" as CheckWaterLevel
+state "补常温水" as RefillRoomTempWater
+state "检查补水条件" as CheckRefillCondition
+
+Idle --> CheckWaterLevel : 系统启动检查
+CheckWaterLevel --> RefillRoomTempWater : 冷水箱低水位\n辅机不在出水状态\n主机不在出水、补水
+CheckWaterLevel --> CheckRefillCondition : 冷水箱低于高水位\n距离上次出冷水增压泵超过1min\n辅机不在出水状态\n主机不在出水、补水
+CheckRefillCondition --> RefillRoomTempWater : 不在出水状态
+CheckRefillCondition --> Idle : 正在出水
+
+RefillRoomTempWater --> CheckWaterLevel : 检查补水过程中状态
+CheckWaterLevel --> Idle : 水箱已高水位\n或用户请求辅机、主机出水、主机补水
+
+note right of CheckWaterLevel
+  检查冷水箱水位
+  检查辅机不在出水状态
+  检查主机不在出水、补水
+  决定是否需要补水
+end note
+
+note right of RefillRoomTempWater
+  进行补水
+  直到达到高水位或
+  或用户请求辅机、主机出水、主机补水
+end note
+
+note left of CheckRefillCondition
+  不满足即刻补水条件时
+  检查是否还需要补水
+end note
+
+@enduml
+
+
+@startuml
+title 碳化罐气泡水出水逻辑状态机
+
+state "待机" as Idle
+state "出气泡水" as DispensingSparklingWater
+state "停止出水" as StopDispensing
+state "补冷水" as RefillColdWater
+
+[*] --> Idle
+
+Idle --> DispensingSparklingWater : 用户按下气泡水按钮
+DispensingSparklingWater --> StopDispensing : 用户按下停止按钮
+DispensingSparklingWater --> StopDispensing : 碳化罐低水位触发
+StopDispensing --> RefillColdWater : 进行补冷水逻辑
+RefillColdWater --> Idle
+
+note right of DispensingSparklingWater
+  气泡水开始出水
+  检查用户是否按下停止按钮
+  或自动检测碳化罐水位
+end note
+
+note right of RefillColdWater
+  停止出气泡水后
+  碳化罐进行补冷水
+end note
+
+@enduml
+
+
+@startuml
+title 碳化罐补冷水逻辑状态机
+
+state "待机" as Idle
+state "判断碳化罐和冷水箱状态" as CheckTankAndColdWater
+state "补冷水" as RefillColdWater
+state "监控补水状态" as MonitorRefill
+
+[*] --> Idle
+Idle --> CheckTankAndColdWater : 系统启动检查
+CheckTankAndColdWater --> RefillColdWater : 碳化罐低于高水位\n副机不在出水\n主机不在出水、补水\n食万不处于加水\n冷水箱有水
+CheckTankAndColdWater --> Idle : 条件不满足
+
+RefillColdWater --> MonitorRefill : 开始补水
+MonitorRefill --> Idle : 条件不满足
+
+note right of CheckTankAndColdWater
+  检查碳化罐是否低于高水位
+  副机不在出水
+  冷水箱有水
+  主机不在出水、补水
+  食万不补水
+end note
+
+
+
+note left of MonitorRefill
+  监控补水状态
+  直到达到高水位或
+  冷水箱达到低水位或
+  副机出水或
+  主机出水、补或
+  食万补水
+  需要停止
+end note
+
+@enduml
+
+
+@startuml
+title 冷水箱补水逻辑状态机
+
+state "待机" as Idle
+state "判断补水条件" as CheckRefillCondition
+state "补水" as RefillWater
+
+Idle --> CheckRefillCondition : 判断补水条件
+
+state CheckRefillCondition {
+state "制冷中补水条件" as CoolingRefillCondition
+state "非制冷中补水条件" as NonCoolingRefillCondition
+
+[*] --> CoolingRefillCondition : 制冷开关与气泡水开关均非关闭状态\n冷水箱低于高水位\n非出常温水状态\n非出冷水状态\n非出气泡水状态\n主机非出水状态\n热水罐非补水状态\n食万非补水状态
+[*] --> NonCoolingRefillCondition : 制冷开关与气泡水开关均非关闭状态\n（冷水箱处于低水位或距离上次出水五分钟）\n非食万补水状态\n非出常温水状态\n非出冷水状态\n非出气泡水状态\n主机非出水状态\n热水罐非补水状态
+CoolingRefillCondition --> RefillWater : 进行制冷中补水
+NonCoolingRefillCondition --> RefillWater : 进行非制冷中补水
+}
+
+RefillWater --> CheckRefillCondition : 检查补水条件
+CheckRefillCondition --> Idle : 不满足补水条件
+
+note right of CheckRefillCondition
+判断制冷中补水条件
+end note
+
+note right of RefillWater
+进行补水
+end note
+
+note left of RefillWater
+补水停止条件：
+- 食万补水
+- 达到冷水箱高水位或溢水位
+- 补水超过六十秒
+- 用户请求气泡水、冰水、常温水或主机出水或补水
+end note
+
+@enduml

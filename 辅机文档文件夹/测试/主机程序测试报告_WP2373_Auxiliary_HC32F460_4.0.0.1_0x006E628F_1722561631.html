@@ -1,0 +1,467 @@
+<head>
+    <meta charset="UTF-8">
+    <title id="main_title">嵌入式软件测试报告</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/public/static/admin/js/public.js"></script>
+<!--    <script src="/public/static/admin/js/jquery.min.js?v=2.1.4"></script>-->
+<!--    <script src="/public/static/admin/js/bootstrap.min.js?v=3.3.7"></script>-->
+<!--    <link href="/public/static/admin/css/bootstrap.min.css?v=3.3.7" rel="stylesheet"/>-->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<!--    <link href="/public/static/admin/css/style.css" rel="stylesheet"/>-->
+<!--    <link href="/public/static/admin/css/animate.css" rel="stylesheet"/>-->
+<!--    <script src="/public/static/admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>-->
+<!--    <script src="/public/static/admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>-->
+<!--    <script src="/public/static/admin/js/plugins/layer/layer.min.js"></script>-->
+<!--    <script src="/public/static/admin/js/plugins/iCheck/icheck.min.js"></script>-->
+<!--    <link href="/public/static/admin/css/plugins/toastr/toastr.min.css" rel="stylesheet"/>-->
+    <script src="/public/static/admin/js/plugins/toastr/toastr.min.js"></script>
+    <script type="text/javascript" src="/public/static/admin/js/test_report/battery_result_report.js?t=12345678"></script>
+    </head><body style=""><input id="contextPath1" type="hidden" value="http://tin-rd-stp.tineco.com/admin.php/">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0;
+            background-color: #fff;
+            padding: 0;
+            box-shadow: 0px 0px 5px #888888;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        h1 {
+            margin-top: 40px;
+            margin-bottom: 16px;
+            font-size: 32px;
+            text-align: center;
+            color: #008080;
+        }
+
+        .details {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            margin-top: 33px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        buchong {
+            font-size: 14px;
+        }
+
+        input {
+            margin-left: 12px;
+            height: 30px;
+            width: 200px;
+            border-radius: 5px;
+            border: 1px solid #b4bbc1;
+            color: inherit;
+            padding: 6px 12px;
+            outline-color: #008080;
+        }
+
+        button {
+            margin-left: 10px;
+            margin-top: -2px;
+        }
+
+        .table_gather>thead>tr>th{
+            /*background-color: #d6e9c6;*/
+            /*background-color: #F2F2F2;*/
+            /*background-color: #4CAF50;*/
+            background-color: #57bd7c;
+            color: white;
+        }
+
+        .base_info>tbody>tr>th {
+            /*background-color: #faebcc;*/
+            /*background-color: #F2F2F2;*/
+            background-color: #57bd7c;
+            color: white;
+        }
+
+        .table_detail>thead>tr>th {
+            /*background-color: #F2F2F2;*/
+            background-color: #57bd7c;
+            color: white;
+        }
+
+        .pass {
+            color: #159f15;
+            font-weight: bold;
+        }
+        .pass_decision {
+            color: #f58904;
+            font-weight: bold;
+        }
+        .fail {
+            color: #ed2e2e;
+            font-weight: bold;
+        }
+
+        .table-striped>tbody>tr:nth-of-type(odd) {
+            /*background-color: #f9f5e1;*/
+            background-color: #e3ede5;
+        }
+
+    </style>
+
+
+<div class="container">
+    <h1 id="title">嵌 入 式 软 件 测 试 报 告</h1>
+    <table class="table_gather">
+        <thead>
+        <tr>
+            <th>软件版本</th>
+            <th>测试结论</th>
+            <th>测试用例</th>
+            <th>通过</th>
+            <th>失败</th>
+        </tr>
+        </thead>
+        <tbody id="info"><tr><td>WP2373_Auxiliary_HC32F460_4.0.0.1_0x006E628F</td><td class="pass">测试通过</td><td>27</td><td>27</td><td>0</td></tr></tbody>
+    </table>
+    <table class="base_info table-striped" id="bms_info" style="display: none;">
+        <tbody><tr>
+            <th colspan="3">基本信息</th>
+        </tr>
+        <tr id="bms_version">
+            <td rowspan="3" style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;">环境信息</td>
+            <td style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;">电池包版本</td>
+        </tr>
+        <tr id="bms_vender">
+            <td style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;">电池包供应商</td>
+        </tr>
+        <tr id="bms_cell_vender">
+            <td style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;">电芯供应商</td>
+        </tr>
+        <tr id="bms_test_model">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试机型</td>
+        </tr>
+        <tr id="bms_test_type">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">Type类型</td>
+        </tr>
+        <tr id="bms_test_strategy">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试策略</td>
+        </tr>
+        <tr id="bms_test_period">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试周期</td>
+        </tr>
+        <tr id="bms_test_engineer">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试工程师</td>
+        </tr>
+        <tr id="bms_change_point">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">变更点</td>
+            <!--            <td style="width: 90%;">内容4</td>-->
+        </tr>
+        <tr id="bms_remaining_problems">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">遗留问题</td>
+<!--            <td style="width: 90%;">内容4</td>-->
+        </tr>
+        <tr id="bms_test_conclusion">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试总结</td>
+<!--            <td style="width: 90%;">内容5</td>-->
+        </tr>
+    </tbody></table>
+    <table class="base_info table-striped" id="screen_info" style="display: none;">
+        <tbody><tr>
+            <th colspan="3">基本信息</th>
+        </tr>
+        <tr id="screen_version">
+            <td rowspan="2" style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;">环境信息</td>
+            <td style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;">屏幕版本</td>
+        </tr>
+        <tr id="screen_vender">
+            <td style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;">屏幕供应商</td>
+        </tr>
+        <tr id="screen_test_model">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试机型</td>
+        </tr>
+        <tr id="screen_test_type">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">Type类型</td>
+        </tr>
+        <tr id="screen_test_strategy">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试策略</td>
+        </tr>
+        <tr id="screen_test_period">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试周期</td>
+        </tr>
+        <tr id="screen_test_engineer">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试工程师</td>
+        </tr>
+        <tr id="screen_change_point">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">变更点</td>
+            <!--            <td style="width: 90%;">内容4</td>-->
+        </tr>
+        <tr id="screen_remaining_problems">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">遗留问题</td>
+            <!--            <td style="width: 90%;">内容4</td>-->
+        </tr>
+        <tr id="screen_test_conclusion">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试总结</td>
+            <!--            <td style="width: 90%;">内容5</td>-->
+        </tr>
+    </tbody></table>
+    <table class="base_info table-striped" id="software_info">
+        <tbody><tr>
+            <th colspan="3">基本信息</th>
+        </tr>
+        <tr id="software_wifi_version">
+            <td rowspan="5" style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;" id="env_total">环境信息</td>
+            <td style="width: 15%; border-right: 1px solid rgb(221, 221, 221); font-weight: bold; display: none;" id="wifi">WiFi版本</td>
+        </tr>
+        <tr id="software_voice_package" style="display: none;">
+            <td style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;" id="voice">语音包版本</td>
+        </tr>
+        <tr id="software_screen_version" style="display: none;">
+            <td style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;" id="screen">屏幕程序版本</td>
+        </tr>
+        <tr id="software_bldc_version" style="display: none;">
+            <td style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;">地刷程序版本</td>
+        </tr>
+        <tr id="software_bms_version" style="display: none;">
+            <td style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;">电池包程序版本</td>
+        </tr><tr id="other_info_1"><td style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;">饮万主机固件</td><td style="width: 70%;">WP2373_Main_HC32F460_4.0.0.0_0x008EF11E</td></tr><tr id="other_info_2"><td style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;">龙头屏幕版本</td><td style="width: 70%;">20240725_V1.25</td></tr><tr id="other_info_3"><td style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;">高配饮万分水盒版本</td><td style="width: 70%;">WP2373_WaterBox_ECR6600_OTA_4.0.0.0</td></tr><tr id="other_info_4"><td style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;">安卓屏版本</td><td style="width: 70%;">KA2108A_2.0.5</td></tr>
+<!--        <tr id="software_android_screen">-->
+<!--            <td style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;">安卓屏版本</td>-->
+<!--        </tr>-->
+<!--        <tr id="software_LCD_panel">-->
+<!--            <td style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;">液体板版本</td>-->
+<!--        </tr>-->
+        <tr id="software_test_model">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试机型</td>
+        <td style="width: 70%;">WP2373</td></tr>
+        <tr id="software_test_type">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">Type类型</td>
+        <td style="width: 70%;">qpntbr</td></tr>
+        <tr id="software_test_strategy">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试策略</td>
+        <td style="width: 70%;">变更点+回归测试</td></tr>
+        <tr id="software_test_period">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试周期</td>
+        <td style="width: 70%;">2024/08/01~2024/08/02</td></tr>
+        <tr id="software_test_engineer">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试工程师</td>
+        <td style="width: 70%;">张伟伟</td></tr>
+        <tr id="software_change_point">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">变更点</td>
+            <!--            <td style="width: 90%;">内容4</td>-->
+        <td style="width: 70%; text-align: left; padding-left: 100px; padding-right: 100px;"><li>在制冷时进行辅机冲洗，辅机冲洗结束后，等五分钟，看辅机是否可以重新制冷</li></td></tr>
+        <tr id="software_remaining_problems">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">遗留问题</td>
+            <!--            <td style="width: 90%;">内容4</td>-->
+        <td style="width: 70%; text-align: center;">-</td></tr>
+        <tr id="software_test_conclusion">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试总结</td>
+            <!--            <td style="width: 90%;">内容5</td>-->
+        <td style="width: 70%; text-align: left; padding-left: 100px; padding-right: 100px;">本轮测试针对主机程序：WP2373_Auxiliary_HC32F460_4.0.0.1_0x006E628F进行，测试编号：1722561631。截至报告时，所有缺陷均已修复并完成验证，符合既定能力成熟度模型通过标准。本轮测试 <span class="pass" id="conclusion_2">通过</span>。</td></tr>
+    </tbody></table>
+    <table class="base_info table-striped" id="data_info" style="display: none;">
+        <tbody><tr>
+            <th colspan="3">基本信息</th>
+        </tr>
+        <!--        <tr id="software_android_screen">-->
+        <!--            <td style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;">安卓屏版本</td>-->
+        <!--        </tr>-->
+        <!--        <tr id="software_LCD_panel">-->
+        <!--            <td style="width: 15%;border-right: 1px solid #ddd;font-weight: bold;">液体板版本</td>-->
+        <!--        </tr>-->
+        <tr id="data_test_strategy">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试策略</td>
+        </tr>
+        <tr id="data_test_period">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试周期</td>
+        </tr>
+        <tr id="data_test_engineer">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试工程师</td>
+        </tr>
+        <tr id="data_change_point">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">变更点</td>
+            <!--            <td style="width: 90%;">内容4</td>-->
+        </tr>
+        <tr id="data_remaining_problems">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">遗留问题</td>
+        </tr>
+        <tr id="data_test_conclusion">
+            <td colspan="2" style="width: 30%;border-right: 1px solid #ddd;font-weight: bold;">测试总结</td>
+        </tr>
+    </tbody></table>
+<!--    <div style="width: 65%;margin-top: 20px;margin-left: 165px;">-->
+<!--        <div class="row">-->
+<!--            <div class="col-sm-9">-->
+<!--                <div class="ibox float-e-margins">-->
+<!--                    <div class="ibox-content">-->
+<!--                        <form class="form-horizontal" role="form">-->
+<!--                            &lt;!&ndash;                            <div class="form-group" style="margin-top: 10px;">&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                <label class="col-sm-2 control-label" style="font-size: 17px;">run_group</label>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                <div class="col-sm-10" id="run_group_1">&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                </div>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            </div>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            <div class="hr-line-dashed"></div>&ndash;&gt;-->
+<!--                            <div class="form-group">-->
+<!--                                <label class="col-sm-2 control-label" style="font-size: 17px;">测试环境</label>-->
+<!--                                <div class="col-sm-10">-->
+<!--                                    <form class="form-inline" role="form">-->
+<!--                                        <label class="col-sm-3 control-label" style="font-size: 17px;">软件版本：</label>-->
+<!--                                        <div class="col-sm-8 m-b" id="bms_version_1">-->
+<!--                                        </div>-->
+<!--                                    </form>-->
+<!--                                    <form class="form-inline" role="form">-->
+<!--                                        <label class="col-sm-3 control-label" style="font-size: 17px;">电池包供应商：</label>-->
+<!--                                        <div class="col-sm-8 m-b" id="vender_1">-->
+<!--                                        </div>-->
+<!--                                    </form>-->
+<!--                                    <form class="form-inline" role="form">-->
+<!--                                        <label class="col-sm-3 control-label" style="font-size: 17px;">电芯供应商：</label>-->
+<!--                                        <div class="col-sm-8 m-b" id="cell_vender_1">-->
+<!--                                        </div>-->
+<!--                                    </form>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="hr-line-dashed"></div>-->
+<!--                            <form class="form-horizontal" role="form">-->
+<!--                                <div class="form-group">-->
+<!--                                    <label class="col-sm-2 control-label" style="font-size: 17px;">遗留问题</label>-->
+<!--                                    <div class="col-sm-10" id="remaining_problems_1">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="hr-line-dashed"></div>-->
+<!--                                <div class="form-group">-->
+<!--                                    <label class="col-sm-2 control-label" style="font-size: 17px;">测试结论</label>-->
+<!--                                    <div class="col-sm-10" id="test_conclusion_1">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </form>-->
+<!--                            <div class="hr-line-dashed"></div>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <p class="details">这里是备注说明内容。</p>-->
+<!--    <div>-->
+<!--        <label class="buchong">补充内容</label>-->
+<!--        <input type="text" id="test" class="has-success" placeholder="请输入补充内容">-->
+<!--        <button type="submit" class="btn btn-primary" id="btn-submit">确定</button>-->
+<!--    </div>-->
+    <!--  <form class="form-inline" role="form" style="width: 90%;">-->
+    <!--    <div class="col-sm-12">-->
+    <!--      <div class="form-group" style="width: 40%;padding-left:140px;padding-top:21px">-->
+    <!--        <label class="col-sm-2 control-label">名称1</label>-->
+    <!--        <input class="form-control col-sm-4" type="text" id="test1" placeholder="请输入内容">-->
+    <!--      </div>-->
+    <!--      <div class="form-group" style="width: 40%;">-->
+    <!--        <label class="col-sm-2 control-label">名称2</label>-->
+    <!--        <input class="form-control  col-sm-4" type="text" id="test2" placeholder="请输入内容">-->
+    <!--      </div>-->
+    <!--    </div>-->
+    <!--  </form>-->
+    <table style="margin-bottom: 40px;" class="table_detail table-striped">
+        <thead>
+        <tr id="interface" style="display: none;">
+            <th>项目</th>
+            <th>模块</th>
+            <th>用例编号</th>
+            <th>用例名称</th>
+            <th>测试结论</th>
+        </tr>
+        <tr id="handwork">
+<!--            <th>项目</th>-->
+<!--            <th>软件版本</th>-->
+            <th>模块</th>
+            <th>用例编号</th>
+            <th>用例名称</th>
+            <th>测试结论</th>
+        </tr>
+        <tr id="components" style="display: none;">
+            <th>软件版本</th>
+            <th>用例名称</th>
+            <th>校验逻辑</th>
+            <th>测试结论</th>
+        </tr>
+        </thead>
+        <tbody id="detail"><tr><td>WIFI</td><td>WP2373_WIFI_012</td><td>验证副机OTA功能正常</td><td class="pass">通过</td></tr><tr><td>冷水箱补水</td><td>WP2373_冷水箱补水_001</td><td>验证非制冷中，冷水箱低水位会立即给冷水箱补水</td><td class="pass">通过</td></tr><tr><td>冷水箱补水</td><td>WP2373_冷水箱补水_002</td><td>验证非制冷中，冷水箱补水完成后进入实时制备流程</td><td class="pass">通过</td></tr><tr><td>冷水箱补水</td><td>WP2373_冷水箱补水_011</td><td>验证非制冷中，冷水箱低于高水位，取冷水（副机增压泵工作）完成后5min会给冷水箱补水</td><td class="pass">通过</td></tr><tr><td>冷水箱补水</td><td>WP2373_冷水箱补水_014</td><td>验证制冷中出冷水至自动停止出水后，会进行冷水箱补水</td><td class="pass">通过</td></tr><tr><td>冷水箱补水</td><td>WP2373_冷水箱补水_015</td><td>验证制冷中冷水箱低于高水位会立即给冷水箱补水</td><td class="pass">通过</td></tr><tr><td>冷水箱补水</td><td>WP2373_冷水箱补水_022</td><td>验证制冷中冷水箱低于高水位，食万补水时不会给冷水箱补水</td><td class="pass">通过</td></tr><tr><td>分水盒</td><td>WP2373_分水盒_003</td><td>验证智能烹饪中投净水缺料时可以给食万补水</td><td class="pass">通过</td></tr><tr><td>分水盒</td><td>WP2373_分水盒_006</td><td>验证在取水时，食万请求补水逻辑正确</td><td class="pass">通过</td></tr><tr><td>分水盒</td><td>WP2373_分水盒_007</td><td>验证食万在补水时，龙头不能请求出水</td><td class="pass">通过</td></tr><tr><td>制冷</td><td>WP2373_制冷_001</td><td>验证制冷箱补完主机常温水后，压缩机满足条件后开始制冷</td><td class="pass">通过</td></tr><tr><td>制冷</td><td>WP2373_制冷_002</td><td>验证冷水箱停止制冷逻辑正确</td><td class="pass">通过</td></tr><tr><td>制冷</td><td>WP2373_制冷_005</td><td>验证停止制冷（压缩机停止工作）5分钟内不会进行制冷</td><td class="pass">通过</td></tr><tr><td>制冷</td><td>WP2373_制冷_007</td><td>验证冷水箱有存水、气泡水有存水时关闭制冷后设备响应</td><td class="pass">通过</td></tr><tr><td>制冷</td><td>WP2373_制冷_011</td><td>验证冷水箱有水、气泡水有存水时气泡功能关闭后设备响应正常</td><td class="pass">通过</td></tr><tr><td>制冷</td><td>WP2373_制冷_014</td><td>验证冷水箱有存水、有气泡水时制冷和气泡功能都关闭时设备响应正常</td><td class="pass">通过</td></tr><tr><td>加热</td><td>WP2373_加热_002</td><td>验证补水结束后加热功能正常</td><td class="pass">通过</td></tr><tr><td>取冷水</td><td>WP2373_取冷水_001</td><td>验证冰水取水功能正常</td><td class="pass">通过</td></tr><tr><td>取冷水</td><td>WP2373_取冷水_002</td><td>验证气泡水取水功能正常</td><td class="pass">通过</td></tr><tr><td>取冷水</td><td>WP2373_取冷水_003</td><td>验证冰水模式出常温水功能正常</td><td class="pass">通过</td></tr><tr><td>取冷水</td><td>WP2373_取冷水_006</td><td>验证碳化罐中低水位时会自动停止出气泡水</td><td class="pass">通过</td></tr><tr><td>取冷水</td><td>WP2373_取冷水_007</td><td>验证碳化罐余量不足弹框提示正确</td><td class="pass">通过</td></tr><tr><td>取冷水</td><td>WP2373_取冷水_011</td><td>验证取水时装上气罐设备响应正常</td><td class="pass">通过</td></tr><tr><td>取水</td><td>WP2373_取水_002</td><td>验证98度取水功能正常</td><td class="pass">通过</td></tr><tr><td>变更点</td><td>WP2373_变更点_001</td><td>验证制冷中副机冲洗5分钟后会再次制冷</td><td class="pass">通过</td></tr><tr><td>气泡水补冷水</td><td>WP2373_气泡水补冷水_001</td><td>验证碳化罐低于高水位时冷水罐会给碳化罐补冷水</td><td class="pass">通过</td></tr><tr><td>气泡水补冷水</td><td>WP2373_气泡水补冷水_017</td><td>验证制冷中冷水箱低于高水位，气泡水放空后补水逻辑</td><td class="pass">通过</td></tr></tbody>
+    </table>
+</div>
+<!--<script>-->
+<!--    $.ajax({-->
+<!--        url: $("#contextPath1").val() + 'test_report/getInfo', type: "get", dataType: "json", async: false-->
+<!--    }).success(function (result) {-->
+<!--        if (result.data.length > 0) {-->
+<!--            let html = "<tr>";-->
+<!--            for (let index in result.data) {-->
+<!--                html += "<td>" + result.data[index] + "</td>";-->
+<!--            }-->
+<!--            html += "</tr>";-->
+<!--            // console.log(html);-->
+<!--            $('#info').html(html);-->
+<!--        }-->
+<!--    });-->
+
+<!--    $.ajax({-->
+<!--        url: $("#contextPath1").val() + 'test_report/getDetail1', type: "get", dataType: "json", async: false-->
+<!--    }).success(function (result) {-->
+<!--        if (result.data.length > 0) {-->
+<!--            let html = "";-->
+<!--            for (let index in result.data) {-->
+<!--                html += "<tr>";-->
+<!--                html += "<td>" + result.data[index]['model'] + "</td>";-->
+<!--                html += "<td>" + result.data[index]['case_id'] + "</td>";-->
+<!--                html += "<td>" + result.data[index]['case_title'] + "</td>";-->
+<!--                html += "<td>" + result.data[index]['test_result'] + "</td>";-->
+<!--                html += "<td>" + result.data[index]['tester'] + "</td>";-->
+<!--                html += "</tr>";-->
+<!--            }-->
+<!--            // console.log(html);-->
+<!--            $('#detail').html(html);-->
+<!--        }-->
+<!--    });-->
+
+<!--    window.onload = function () {-->
+<!--// var url = window.location.href-->
+<!--        content = document.getElementsByTagName('html')[0].innerHTML;-->
+<!--        console.log(content);-->
+<!--        $.ajax({-->
+<!--            url: $('#contextPath1').val() + '/test_report/test1', type: "post", dataType: "json", data:{-->
+<!--                content:content-->
+<!--            }-->
+<!--        }).success(function (result) {-->
+<!--        });-->
+<!--    }-->
+<!--</script>-->
+
+</body>
